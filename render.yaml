@@ -1,0 +1,31 @@
+services:
+  - type: web
+    name: inkwell-backend
+    env: node
+    plan: free
+    rootDir: server
+    buildCommand: npm install && npx prisma generate
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: DATABASE_URL
+        fromDatabase:
+          name: inkwell-db
+          property: connectionString
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_EXPIRES_IN
+        value: 7d
+      - key: CLIENT_URL
+        value: https://inkwell-blog.vercel.app
+      - key: ADMIN_SETUP_KEY
+        generateValue: true
+
+databases:
+  - name: inkwell-db
+    databaseName: inkwell
+    user: inkwell_user
+    plan: free
