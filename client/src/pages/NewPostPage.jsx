@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-  PenTool,
   Save,
   Globe,
   Eye,
@@ -12,16 +11,14 @@ import {
   Bold,
   Italic,
   Heading,
-  List,
   Quote,
   Code,
   Link as LinkIcon,
   ArrowLeft,
-  Sparkles,
 } from 'lucide-react';
 import DOMPurify from 'dompurify';
 import toast from 'react-hot-toast';
-import { createPost, getCategories, getTags } from '../services/api';
+import { createPost, getCategories } from '../services/api';
 
 export default function NewPostPage() {
   const navigate = useNavigate();
@@ -54,7 +51,6 @@ export default function NewPostPage() {
     fetchMetadata();
   }, []);
 
-  // Formatting helpers to insert HTML into content
   const insertFormatting = (before, after = '') => {
     const textarea = document.getElementById('post-content-textarea');
     if (!textarea) return;
@@ -85,8 +81,6 @@ export default function NewPostPage() {
 
     try {
       setSubmitting(true);
-
-      // Process tags
       const rawTags = tagInput
         .split(',')
         .map((t) => t.trim())
@@ -102,7 +96,7 @@ export default function NewPostPage() {
         tags: rawTags,
       };
 
-      const res = await createPost(postPayload);
+      await createPost(postPayload);
       toast.success(statusToSet === 'PUBLISHED' ? 'Article published successfully!' : 'Draft saved!');
       navigate('/dashboard');
     } catch (err) {
@@ -123,14 +117,14 @@ export default function NewPostPage() {
   });
 
   return (
-    <div className="max-w-4xl mx-auto space-y-8 pb-16">
+    <div className="max-w-4xl mx-auto space-y-6 pb-16 py-4">
       {/* ─── Top Bar ────────────────────────────────────────── */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pt-2">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-4 border-b border-[var(--line)]">
         <button
           onClick={() => navigate('/dashboard')}
-          className="inline-flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100 transition"
+          className="ink-btn-pill text-xs"
         >
-          <ArrowLeft className="w-4 h-4" />
+          <ArrowLeft className="w-3.5 h-3.5" />
           <span>Back to Dashboard</span>
         </button>
 
@@ -139,9 +133,9 @@ export default function NewPostPage() {
             type="button"
             disabled={submitting}
             onClick={() => handleSave('DRAFT')}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/80 transition shadow-sm disabled:opacity-50"
+            className="ink-btn-pill text-xs disabled:opacity-50"
           >
-            <Save className="w-4 h-4 text-gray-500" />
+            <Save className="w-3.5 h-3.5 text-primary-400" />
             <span>Save Draft</span>
           </button>
 
@@ -149,16 +143,16 @@ export default function NewPostPage() {
             type="button"
             disabled={submitting}
             onClick={() => handleSave('PUBLISHED')}
-            className="inline-flex items-center gap-2 px-5 py-2 rounded-xl text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-700 transition shadow-md shadow-indigo-600/20 disabled:opacity-50"
+            className="ink-btn-accent text-xs disabled:opacity-50"
           >
-            <Globe className="w-4 h-4" />
+            <Globe className="w-3.5 h-3.5" />
             <span>{submitting ? 'Publishing...' : 'Publish Story'}</span>
           </button>
         </div>
       </div>
 
-      {/* ─── Metadata Inputs (Image, Category, Tags) ───────── */}
-      <div className="p-6 rounded-3xl bg-white dark:bg-gray-800/80 border border-gray-200/80 dark:border-gray-700/80 shadow-sm space-y-4">
+      {/* ─── Metadata Inputs ────────────────────────────────── */}
+      <div className="ink-card p-6 space-y-4">
         {/* Title */}
         <input
           type="text"
@@ -166,7 +160,7 @@ export default function NewPostPage() {
           onChange={(e) => setTitle(e.target.value)}
           placeholder="Story Title..."
           maxLength={200}
-          className="w-full text-2xl sm:text-4xl font-serif font-bold text-gray-950 dark:text-gray-50 placeholder-gray-400 dark:placeholder-gray-600 bg-transparent border-0 focus:outline-none focus:ring-0 p-0"
+          className="w-full text-2xl sm:text-3xl font-bold text-[var(--text)] placeholder-[var(--muted)] bg-transparent border-0 focus:outline-none p-0"
         />
 
         {/* Excerpt */}
@@ -176,20 +170,20 @@ export default function NewPostPage() {
           onChange={(e) => setExcerpt(e.target.value)}
           placeholder="Brief summary or subtitle (optional)..."
           maxLength={300}
-          className="w-full text-sm sm:text-base text-gray-600 dark:text-gray-300 placeholder-gray-400 bg-transparent border-0 focus:outline-none focus:ring-0 p-0"
+          className="w-full text-xs sm:text-sm text-[var(--muted)] placeholder-[var(--muted)] bg-transparent border-0 focus:outline-none p-0"
         />
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 border-t border-gray-100 dark:border-gray-700/60">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 border-t border-[var(--line)]">
           {/* Category */}
           <div className="space-y-1">
-            <label className="text-xs font-semibold uppercase tracking-wider text-gray-400 flex items-center gap-1">
-              <Folder className="w-3.5 h-3.5" />
+            <label className="text-[11px] font-semibold uppercase tracking-wider text-[var(--muted)] flex items-center gap-1">
+              <Folder className="w-3.5 h-3.5 text-primary-400" />
               Category
             </label>
             <select
               value={categoryId}
               onChange={(e) => setCategoryId(e.target.value)}
-              className="w-full py-2 px-3 rounded-xl bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-sm text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="w-full py-2 px-3 rounded-[8px] bg-[var(--surface)] border border-[var(--line)] text-xs text-[var(--text)] focus:outline-none focus:border-[var(--accent)]"
             >
               {categories.map((cat) => (
                 <option key={cat.id} value={cat.id}>
@@ -201,8 +195,8 @@ export default function NewPostPage() {
 
           {/* Cover Image URL */}
           <div className="space-y-1">
-            <label className="text-xs font-semibold uppercase tracking-wider text-gray-400 flex items-center gap-1">
-              <Image className="w-3.5 h-3.5" />
+            <label className="text-[11px] font-semibold uppercase tracking-wider text-[var(--muted)] flex items-center gap-1">
+              <Image className="w-3.5 h-3.5 text-primary-400" />
               Cover Image URL
             </label>
             <input
@@ -210,22 +204,22 @@ export default function NewPostPage() {
               value={coverImage}
               onChange={(e) => setCoverImage(e.target.value)}
               placeholder="https://images.unsplash.com/..."
-              className="w-full py-2 px-3 rounded-xl bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-sm text-gray-800 dark:text-gray-200 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="w-full py-2 px-3 rounded-[8px] bg-[var(--surface)] border border-[var(--line)] text-xs text-[var(--text)] placeholder-[var(--muted)] focus:outline-none focus:border-[var(--accent)]"
             />
           </div>
 
           {/* Tags */}
           <div className="space-y-1">
-            <label className="text-xs font-semibold uppercase tracking-wider text-gray-400 flex items-center gap-1">
-              <Tag className="w-3.5 h-3.5" />
+            <label className="text-[11px] font-semibold uppercase tracking-wider text-[var(--muted)] flex items-center gap-1">
+              <Tag className="w-3.5 h-3.5 text-primary-400" />
               Tags (comma-separated)
             </label>
             <input
               type="text"
               value={tagInput}
               onChange={(e) => setTagInput(e.target.value)}
-              placeholder="React, Frontend, Web"
-              className="w-full py-2 px-3 rounded-xl bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-sm text-gray-800 dark:text-gray-200 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              placeholder="React, Backend, Node"
+              className="w-full py-2 px-3 rounded-[8px] bg-[var(--surface)] border border-[var(--line)] text-xs text-[var(--text)] placeholder-[var(--muted)] focus:outline-none focus:border-[var(--accent)]"
             />
           </div>
         </div>
@@ -233,8 +227,8 @@ export default function NewPostPage() {
         {/* Cover Image Preview */}
         {coverImage && (
           <div className="pt-2">
-            <p className="text-xs text-gray-400 mb-1">Image Preview:</p>
-            <div className="h-40 rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-700 max-w-sm">
+            <p className="text-xs text-[var(--muted)] mb-1">Image Preview:</p>
+            <div className="h-36 rounded-[8px] overflow-hidden border border-[var(--line)] max-w-sm">
               <img
                 src={coverImage}
                 alt="Cover Preview"
@@ -249,18 +243,18 @@ export default function NewPostPage() {
       </div>
 
       {/* ─── Editor & Preview Container ─────────────────────── */}
-      <div className="rounded-3xl bg-white dark:bg-gray-800/80 border border-gray-200/80 dark:border-gray-700/80 shadow-sm overflow-hidden">
+      <div className="ink-card overflow-hidden">
         {/* Tab & Toolbar Bar */}
-        <div className="flex flex-wrap items-center justify-between p-3 border-b border-gray-100 dark:border-gray-700/60 bg-gray-50/70 dark:bg-gray-900/40 gap-2">
+        <div className="flex flex-wrap items-center justify-between p-3 border-b border-[var(--line)] bg-[var(--surface)] gap-2">
           {/* Tabs */}
-          <div className="flex items-center gap-1 bg-white dark:bg-gray-800 p-1 rounded-xl border border-gray-200 dark:border-gray-700">
+          <div className="flex items-center gap-1">
             <button
               type="button"
               onClick={() => setActiveTab('write')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-medium flex items-center gap-1.5 transition ${
+              className={`px-3 py-1.5 rounded-[6px] text-xs font-medium flex items-center gap-1.5 transition ${
                 activeTab === 'write'
-                  ? 'bg-indigo-600 text-white shadow-sm'
-                  : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+                  ? 'bg-[var(--card)] text-primary-400 border border-[var(--line)] shadow-sm'
+                  : 'text-[var(--muted)] hover:text-[var(--text)]'
               }`}
             >
               <Edit3 className="w-3.5 h-3.5" />
@@ -269,10 +263,10 @@ export default function NewPostPage() {
             <button
               type="button"
               onClick={() => setActiveTab('preview')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-medium flex items-center gap-1.5 transition ${
+              className={`px-3 py-1.5 rounded-[6px] text-xs font-medium flex items-center gap-1.5 transition ${
                 activeTab === 'preview'
-                  ? 'bg-indigo-600 text-white shadow-sm'
-                  : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+                  ? 'bg-[var(--card)] text-primary-400 border border-[var(--line)] shadow-sm'
+                  : 'text-[var(--muted)] hover:text-[var(--text)]'
               }`}
             >
               <Eye className="w-3.5 h-3.5" />
@@ -286,50 +280,50 @@ export default function NewPostPage() {
               <button
                 type="button"
                 onClick={() => insertFormatting('<strong>', '</strong>')}
-                className="p-1.5 rounded-lg text-gray-500 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-gray-200/60 dark:hover:bg-gray-700 transition"
+                className="p-1.5 rounded hover:bg-[var(--card)] text-[var(--muted)] hover:text-primary-400 transition"
                 title="Bold (<strong>)"
               >
-                <Bold className="w-4 h-4" />
+                <Bold className="w-3.5 h-3.5" />
               </button>
               <button
                 type="button"
                 onClick={() => insertFormatting('<em>', '</em>')}
-                className="p-1.5 rounded-lg text-gray-500 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-gray-200/60 dark:hover:bg-gray-700 transition"
+                className="p-1.5 rounded hover:bg-[var(--card)] text-[var(--muted)] hover:text-primary-400 transition"
                 title="Italic (<em>)"
               >
-                <Italic className="w-4 h-4" />
+                <Italic className="w-3.5 h-3.5" />
               </button>
               <button
                 type="button"
                 onClick={() => insertFormatting('<h2>', '</h2>')}
-                className="p-1.5 rounded-lg text-gray-500 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-gray-200/60 dark:hover:bg-gray-700 transition"
+                className="p-1.5 rounded hover:bg-[var(--card)] text-[var(--muted)] hover:text-primary-400 transition"
                 title="Heading (<h2>)"
               >
-                <Heading className="w-4 h-4" />
+                <Heading className="w-3.5 h-3.5" />
               </button>
               <button
                 type="button"
                 onClick={() => insertFormatting('<blockquote>', '</blockquote>')}
-                className="p-1.5 rounded-lg text-gray-500 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-gray-200/60 dark:hover:bg-gray-700 transition"
+                className="p-1.5 rounded hover:bg-[var(--card)] text-[var(--muted)] hover:text-primary-400 transition"
                 title="Blockquote"
               >
-                <Quote className="w-4 h-4" />
+                <Quote className="w-3.5 h-3.5" />
               </button>
               <button
                 type="button"
                 onClick={() => insertFormatting('<code>', '</code>')}
-                className="p-1.5 rounded-lg text-gray-500 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-gray-200/60 dark:hover:bg-gray-700 transition"
+                className="p-1.5 rounded hover:bg-[var(--card)] text-[var(--muted)] hover:text-primary-400 transition"
                 title="Inline Code"
               >
-                <Code className="w-4 h-4" />
+                <Code className="w-3.5 h-3.5" />
               </button>
               <button
                 type="button"
                 onClick={() => insertFormatting('<a href="https://example.com">', '</a>')}
-                className="p-1.5 rounded-lg text-gray-500 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-gray-200/60 dark:hover:bg-gray-700 transition"
+                className="p-1.5 rounded hover:bg-[var(--card)] text-[var(--muted)] hover:text-primary-400 transition"
                 title="Insert Link"
               >
-                <LinkIcon className="w-4 h-4" />
+                <LinkIcon className="w-3.5 h-3.5" />
               </button>
             </div>
           )}
@@ -342,18 +336,18 @@ export default function NewPostPage() {
             value={content}
             onChange={(e) => setContent(e.target.value)}
             placeholder="Tell your story... You can write in clean paragraphs or use HTML tags like <h2>, <p>, <blockquote>, <strong>, <code>."
-            rows={18}
-            className="w-full p-6 bg-transparent border-0 resize-y focus:outline-none focus:ring-0 text-gray-900 dark:text-gray-100 placeholder-gray-400 font-sans text-base leading-relaxed"
+            rows={16}
+            className="w-full p-6 bg-transparent border-0 resize-y focus:outline-none text-[var(--text)] placeholder-[var(--muted)] font-sans text-sm leading-relaxed"
           />
         ) : (
-          <div className="p-8 min-h-[400px]">
+          <div className="p-6 min-h-[380px]">
             {content.trim() ? (
               <div
-                className="prose-content text-gray-800 dark:text-gray-200 leading-relaxed font-sans space-y-4"
+                className="prose-content space-y-4"
                 dangerouslySetInnerHTML={{ __html: sanitizedPreview }}
               />
             ) : (
-              <p className="text-gray-400 italic text-sm">
+              <p className="text-[var(--muted)] italic text-xs">
                 No content written yet. Switch back to Write to compose your story.
               </p>
             )}

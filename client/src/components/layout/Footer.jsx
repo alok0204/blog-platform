@@ -1,60 +1,57 @@
 import { Link } from 'react-router-dom';
-import { PenTool, Github, Linkedin, Heart } from 'lucide-react';
+import { Github, Linkedin, Heart, ExternalLink, Code } from 'lucide-react';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800">
+    <footer className="bg-[var(--bg)] border-t border-[var(--line)] transition-colors mt-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Main footer */}
         <div className="py-12 grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Brand */}
           <div className="space-y-4">
-            <Link to="/" className="flex items-center gap-2">
-              <div className="w-9 h-9 bg-primary-600 rounded-lg flex items-center justify-center">
-                <PenTool className="w-5 h-5 text-white" />
-              </div>
-              <span className="font-serif text-xl font-bold text-gray-900 dark:text-white">
+            <Link to="/" className="flex items-center gap-1.5 group">
+              <span className="font-mono text-primary-400 font-bold text-lg">&lt;/&gt;</span>
+              <span className="font-sans text-xl font-bold text-[var(--text)] tracking-tight">
                 INKWELL
               </span>
             </Link>
-            <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed max-w-sm">
-              A modern platform for sharing stories, ideas, and discussions.
-              Stories Worth Sharing.
+            <p className="text-sm text-[var(--muted)] leading-relaxed max-w-sm">
+              "Stories Worth Sharing" — A full-stack publishing platform engineered for elegant writing, rich discussions, and deep reading.
             </p>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2 pt-1">
               <a
                 href="https://github.com/alok0204"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800"
+                className="p-2 text-[var(--muted)] hover:text-primary-400 transition-colors rounded-[6px] border border-[var(--line)] hover:border-[var(--accent)] bg-[var(--surface)]"
                 aria-label="GitHub"
               >
-                <Github className="w-5 h-5" />
+                <Github className="w-4 h-4" />
               </a>
               <a
-                href="https://linkedin.com/in/alok0204"
+                href="https://www.linkedin.com/in/alok-kumar-vishwas-628b663a1/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800"
+                className="p-2 text-[var(--muted)] hover:text-primary-400 transition-colors rounded-[6px] border border-[var(--line)] hover:border-[var(--accent)] bg-[var(--surface)]"
                 aria-label="LinkedIn"
               >
-                <Linkedin className="w-5 h-5" />
+                <Linkedin className="w-4 h-4" />
               </a>
             </div>
           </div>
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-sm font-semibold text-gray-900 dark:text-white uppercase tracking-wider mb-4">
-              Quick Links
+            <h3 className="ink-eyebrow mb-4">
+              Navigation
             </h3>
-            <ul className="space-y-3">
+            <ul className="space-y-2.5">
               <li>
                 <Link
                   to="/"
-                  className="text-sm text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
+                  className="text-sm text-[var(--muted)] hover:text-primary-400 transition-colors"
                 >
                   Home
                 </Link>
@@ -62,7 +59,7 @@ export default function Footer() {
               <li>
                 <Link
                   to="/posts"
-                  className="text-sm text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
+                  className="text-sm text-[var(--muted)] hover:text-primary-400 transition-colors"
                 >
                   All Articles
                 </Link>
@@ -70,25 +67,17 @@ export default function Footer() {
               <li>
                 <Link
                   to="/about"
-                  className="text-sm text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
+                  className="text-sm text-[var(--muted)] hover:text-primary-400 transition-colors"
                 >
-                  About
+                  About Platform
                 </Link>
               </li>
               <li>
                 <Link
-                  to="/login"
-                  className="text-sm text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
+                  to="/dashboard"
+                  className="text-sm text-[var(--muted)] hover:text-primary-400 transition-colors"
                 >
-                  Sign In
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/register"
-                  className="text-sm text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
-                >
-                  Get Started
+                  Author Studio
                 </Link>
               </li>
             </ul>
@@ -96,32 +85,44 @@ export default function Footer() {
 
           {/* Developer Credit */}
           <div>
-            <h3 className="text-sm font-semibold text-gray-900 dark:text-white uppercase tracking-wider mb-4">
-              Developer
+            <h3 className="ink-eyebrow mb-4">
+              Developer Attribution
             </h3>
-            <div className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
-              <p className="font-medium text-gray-800 dark:text-gray-200">Built by Alok Kumar Vishwas</p>
-              <p>Thiranex Internship — Task 4</p>
-              <a
-                href="https://github.com/alok0204"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-block hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
-              >
-                github.com/alok0204
-              </a>
+            <div className="ink-card p-4 space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="text-sm font-semibold text-[var(--text)]">Alok Kumar Vishwas</span>
+                <span className="ink-tag text-[10px]">B.Tech CSE</span>
+              </div>
+              <p className="text-xs text-[var(--muted)] leading-relaxed">
+                GL Bajaj Institute of Technology & Management, Greater Noida
+              </p>
+              <div className="pt-2 border-t border-[var(--line)] flex items-center justify-between text-xs text-[var(--muted)]">
+                <span>Thiranex Task 4</span>
+                <a
+                  href="https://github.com/alok0204/blog-platform"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-primary-400 hover:underline flex items-center gap-1"
+                >
+                  <span>Repository</span>
+                  <ExternalLink className="w-3 h-3" />
+                </a>
+              </div>
             </div>
           </div>
         </div>
 
         {/* Bottom bar */}
-        <div className="border-t border-gray-200 dark:border-gray-800 py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-sm text-gray-500 dark:text-gray-500">
-            &copy; {currentYear} INKWELL. All rights reserved.
+        <div className="py-6 border-t border-[var(--line)] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[var(--muted)]">
+          <p>
+            &copy; {currentYear} INKWELL. Built for Thiranex Internship Task 4.
           </p>
-          <p className="text-sm text-gray-500 dark:text-gray-500 flex items-center gap-1">
-            Made with <Heart className="w-4 h-4 text-red-500 fill-red-500" /> by Alok Kumar Vishwas
-          </p>
+          <div className="flex items-center gap-4">
+            <span className="flex items-center gap-1.5">
+              <Code className="w-3.5 h-3.5 text-primary-400" />
+              <span>React 18 · Vite · Tailwind · Node · Prisma</span>
+            </span>
+          </div>
         </div>
       </div>
     </footer>

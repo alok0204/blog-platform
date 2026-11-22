@@ -1,10 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Sparkles, BookOpen, PenTool, MessageSquare, TrendingUp, Compass, Shield } from 'lucide-react';
+import {
+  ArrowRight,
+  PenTool,
+  TrendingUp,
+  Compass,
+  Layers,
+  Terminal,
+  PanelsTopLeft,
+  Server,
+  GitBranch,
+  Clock,
+  User,
+  Sparkles,
+} from 'lucide-react';
 import { motion } from 'framer-motion';
 import { getPosts, getCategories } from '../services/api';
 import BlogCard from '../components/blog/BlogCard';
 import LoadingSpinner from '../components/ui/LoadingSpinner';
+
+const categoryIcons = {
+  'technology': Server,
+  'web-development': PanelsTopLeft,
+  'programming': Terminal,
+  'developer-tools': GitBranch,
+  'design': PanelsTopLeft,
+  'career': Sparkles,
+};
 
 export default function HomePage() {
   const [posts, setPosts] = useState([]);
@@ -38,141 +60,173 @@ export default function HomePage() {
   const recentPosts = posts.slice(1, 7);
 
   return (
-    <div className="space-y-16 md:space-y-24">
+    <div className="space-y-16 md:space-y-20 py-4">
       {/* ─── Hero Section ───────────────────────────────────── */}
-      <section className="relative overflow-hidden pt-8 md:pt-16 pb-12 text-center md:text-left">
-        <div className="absolute inset-0 -z-10 flex items-center justify-center opacity-30 dark:opacity-20 pointer-events-none">
-          <div className="w-[500px] h-[500px] bg-gradient-to-tr from-indigo-500/30 to-violet-500/20 rounded-full blur-3xl" />
+      <section className="pt-6 md:pt-12">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 pb-8 border-b border-[var(--line)]">
+          <div className="space-y-3 max-w-2xl">
+            <p className="ink-eyebrow">MY PUBLISHING PLATFORM</p>
+            <h1 className="text-3xl sm:text-5xl font-sans font-bold text-[var(--text)] tracking-tight">
+              A foundation to build on.
+            </h1>
+            <p className="text-sm sm:text-base text-[var(--muted)] leading-relaxed">
+              INKWELL — Stories Worth Sharing. Built with full-stack craftsmanship for Thiranex Task 4.
+            </p>
+          </div>
+          <div className="text-xs sm:text-sm text-[var(--muted)] leading-relaxed md:text-right max-w-xs space-y-1">
+            <p>Practicing the fundamentals.</p>
+            <p>Adding something new along the way.</p>
+            <div className="flex md:justify-end gap-3 pt-3">
+              <Link to="/posts" className="ink-btn-pill">
+                <span>Explore Posts</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+              <Link to="/dashboard/new" className="ink-btn-accent text-xs">
+                <PenTool className="w-3.5 h-3.5" />
+                <span>Write Story</span>
+              </Link>
+            </div>
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="md:col-span-8 space-y-6"
-          >
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-medium tracking-wide uppercase bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 border border-indigo-200/60 dark:border-indigo-800/60 shadow-sm">
-              <Sparkles className="w-3.5 h-3.5 text-indigo-500" />
-              <span>A Modern Editorial Publishing Platform</span>
-            </div>
-
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif font-bold text-gray-950 dark:text-gray-50 leading-[1.15] tracking-tight">
-              Stories Worth <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-indigo-500 to-violet-600 dark:from-indigo-400 dark:via-indigo-300 dark:to-violet-400">Sharing.</span>
-            </h1>
-
-            <p className="text-lg sm:text-xl text-gray-600 dark:text-gray-300 max-w-2xl leading-relaxed font-sans">
-              Welcome to INKWELL — a clean space designed for thoughtful writing, insightful perspectives, and enriching technical discourse.
-            </p>
-
-            <div className="flex flex-wrap items-center justify-center md:justify-start gap-4 pt-2">
-              <Link
-                to="/posts"
-                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl font-medium text-white bg-indigo-600 hover:bg-indigo-700 transition shadow-lg shadow-indigo-600/25 hover:shadow-indigo-600/35"
-              >
-                <span>Start Reading</span>
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-              <Link
-                to="/register"
-                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl font-medium text-gray-800 dark:text-gray-200 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700/80 border border-gray-200 dark:border-gray-700 transition shadow-sm"
-              >
-                <PenTool className="w-4 h-4 text-indigo-500" />
-                <span>Write a Story</span>
-              </Link>
-            </div>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.7, delay: 0.2 }}
-            className="md:col-span-4 hidden md:block"
-          >
-            <div className="relative p-6 rounded-3xl bg-gradient-to-br from-indigo-50/80 via-white to-violet-50/50 dark:from-gray-800/80 dark:via-gray-800/40 dark:to-indigo-950/40 border border-indigo-100/80 dark:border-gray-700/60 shadow-xl space-y-4">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-2xl bg-indigo-600 flex items-center justify-center text-white shadow-md">
-                  <BookOpen className="w-5 h-5" />
-                </div>
-                <div>
-                  <h4 className="font-serif font-bold text-gray-900 dark:text-gray-100">Editorial Excellence</h4>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">Curated & community stories</p>
-                </div>
-              </div>
-              <p className="text-xs text-gray-600 dark:text-gray-300 leading-relaxed">
-                "Words have the power to illuminate complex engineering concepts, spark curiosity, and connect passionate developers across the world."
+        {/* ─── 4 Featured Topic Cards (exact match to picture) ─── */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          <div className="ink-card p-6 flex flex-col justify-between">
+            <div>
+              <Terminal className="w-6 h-6 text-primary-400 mb-6" />
+              <h3 className="text-base font-bold text-[var(--text)] mb-2">Programming</h3>
+              <p className="text-xs text-[var(--muted)] leading-relaxed min-h-[40px]">
+                The foundations of problem solving, data structures, and algorithms.
               </p>
-              <div className="pt-2 border-t border-gray-100 dark:border-gray-700/50 flex items-center justify-between text-xs text-gray-500 dark:text-gray-400">
-                <span>By Alok Kumar Vishwas</span>
-                <span>Thiranex Task 4</span>
-              </div>
             </div>
-          </motion.div>
+            <div className="flex flex-wrap gap-2 pt-5">
+              <span className="ink-tag">C</span>
+              <span className="ink-tag">C++</span>
+              <span className="ink-tag">Python</span>
+            </div>
+          </div>
+
+          <div className="ink-card p-6 flex flex-col justify-between">
+            <div>
+              <PanelsTopLeft className="w-6 h-6 text-primary-400 mb-6" />
+              <h3 className="text-base font-bold text-[var(--text)] mb-2">Frontend</h3>
+              <p className="text-xs text-[var(--muted)] leading-relaxed min-h-[40px]">
+                Structure, style, and responsive component architecture.
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-2 pt-5">
+              <span className="ink-tag">HTML</span>
+              <span className="ink-tag">CSS</span>
+              <span className="ink-tag">React</span>
+              <span className="ink-tag">Tailwind</span>
+            </div>
+          </div>
+
+          {/* Highlighted active card (matches the glowing violet "Backend" card in screenshot) */}
+          <div className="ink-card-active p-6 flex flex-col justify-between relative">
+            <div>
+              <Server className="w-6 h-6 text-primary-400 mb-6" />
+              <h3 className="text-base font-bold text-[var(--text)] mb-2">Backend</h3>
+              <p className="text-xs text-[var(--muted)] leading-relaxed min-h-[40px]">
+                Exploring server-side development, RESTful APIs, and database modeling.
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-2 pt-5">
+              <span className="ink-tag">Node.js</span>
+              <span className="ink-tag">Express</span>
+              <span className="ink-tag">Prisma</span>
+            </div>
+          </div>
+
+          <div className="ink-card p-6 flex flex-col justify-between">
+            <div>
+              <GitBranch className="w-6 h-6 text-primary-400 mb-6" />
+              <h3 className="text-base font-bold text-[var(--text)] mb-2">Developer tools</h3>
+              <p className="text-xs text-[var(--muted)] leading-relaxed min-h-[40px]">
+                Keeping projects organized, versioned, and verified as they grow.
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-2 pt-5">
+              <span className="ink-tag">Git</span>
+              <span className="ink-tag">GitHub</span>
+              <span className="ink-tag">PostgreSQL</span>
+            </div>
+          </div>
+        </div>
+
+        {/* ─── Stack Strip (matching portfolio screenshot) ───── */}
+        <div className="flex flex-wrap items-center gap-4 sm:gap-8 pt-8 mt-8 border-t border-[var(--line)] text-xs text-[var(--muted)]">
+          <span className="flex items-center gap-2 font-medium text-[var(--text)]">
+            <Layers className="w-4 h-4 text-primary-400" />
+            <span>Built into this platform</span>
+          </span>
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="ink-tag">React 18</span>
+            <span className="ink-tag">Vite</span>
+            <span className="ink-tag">Tailwind CSS</span>
+            <span className="ink-tag">Express</span>
+            <span className="ink-tag">PostgreSQL</span>
+            <span className="ink-tag">Prisma ORM</span>
+          </div>
         </div>
       </section>
 
       {/* ─── Featured Article ───────────────────────────────── */}
       {featuredPost && (
-        <section className="space-y-6">
+        <section className="space-y-4">
           <div className="flex items-center justify-between">
-            <h2 className="text-2xl font-serif font-bold text-gray-900 dark:text-gray-100 flex items-center gap-2">
-              <TrendingUp className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
-              Featured Story
-            </h2>
+            <div className="flex items-center gap-2">
+              <p className="ink-eyebrow">SPOTLIGHT DISPATCH</p>
+            </div>
           </div>
 
-          <div className="group relative overflow-hidden rounded-3xl bg-white dark:bg-gray-800/70 border border-gray-200/80 dark:border-gray-700/70 shadow-lg hover:shadow-xl transition-all duration-300">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
-              <div className="lg:col-span-7 h-64 lg:h-96 overflow-hidden bg-gray-100 dark:bg-gray-900">
+          <div className="ink-card overflow-hidden">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-0 items-center">
+              <div className="lg:col-span-7 h-64 lg:h-80 overflow-hidden bg-[var(--surface)]">
                 {featuredPost.coverImage ? (
                   <img
                     src={featuredPost.coverImage}
                     alt={featuredPost.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
                   />
                 ) : (
-                  <div className="w-full h-full bg-gradient-to-br from-indigo-500/20 via-purple-500/20 to-pink-500/20 flex items-center justify-center p-8 text-indigo-400">
-                    <BookOpen className="w-16 h-16 opacity-40" />
+                  <div className="w-full h-full bg-gradient-to-br from-[#17171c] via-[#1c1c22] to-[#252530] flex items-center justify-center p-8">
+                    <span className="font-mono text-primary-400/40 text-6xl font-bold">&lt;/&gt;</span>
                   </div>
                 )}
               </div>
 
               <div className="lg:col-span-5 p-6 lg:p-8 space-y-4">
                 {featuredPost.category && (
-                  <span className="inline-block px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/50 border border-indigo-100 dark:border-indigo-900/50">
+                  <span className="ink-tag text-primary-400 font-semibold">
                     {featuredPost.category.name}
                   </span>
                 )}
 
-                <h3 className="text-2xl sm:text-3xl font-serif font-bold text-gray-900 dark:text-gray-100 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors leading-tight">
+                <h3 className="text-xl sm:text-2xl font-bold text-[var(--text)] hover:text-primary-400 transition-colors leading-snug">
                   <Link to={`/posts/${featuredPost.slug}`}>{featuredPost.title}</Link>
                 </h3>
 
-                <p className="text-gray-600 dark:text-gray-300 text-sm sm:text-base line-clamp-3 leading-relaxed">
+                <p className="text-xs sm:text-sm text-[var(--muted)] line-clamp-3 leading-relaxed">
                   {featuredPost.excerpt || featuredPost.content?.slice(0, 160)}...
                 </p>
 
-                <div className="flex items-center justify-between pt-4 border-t border-gray-100 dark:border-gray-700/60">
-                  <div className="flex items-center gap-3">
-                    <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-600 flex items-center justify-center text-white text-xs font-semibold shadow-sm">
+                <div className="flex items-center justify-between pt-4 border-t border-[var(--line)] text-xs text-[var(--muted)]">
+                  <div className="flex items-center gap-2">
+                    <div className="w-6 h-6 rounded-full bg-[var(--surface)] border border-[var(--line)] flex items-center justify-center text-primary-400 text-xs font-bold">
                       {featuredPost.author?.name ? featuredPost.author.name[0].toUpperCase() : 'A'}
                     </div>
-                    <div>
-                      <p className="text-xs font-semibold text-gray-900 dark:text-gray-100">
-                        {featuredPost.author?.name || 'INKWELL Author'}
-                      </p>
-                      <p className="text-[11px] text-gray-500 dark:text-gray-400">
-                        {featuredPost.publishedAt ? new Date(featuredPost.publishedAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' }) : 'Recently'}
-                      </p>
-                    </div>
+                    <span className="font-medium text-[var(--text)] truncate max-w-[120px]">
+                      {featuredPost.author?.name || 'INKWELL Author'}
+                    </span>
                   </div>
 
                   <Link
                     to={`/posts/${featuredPost.slug}`}
-                    className="inline-flex items-center gap-1.5 text-sm font-semibold text-indigo-600 dark:text-indigo-400 hover:gap-2 transition-all"
+                    className="text-primary-400 hover:text-primary-300 font-medium inline-flex items-center gap-1 text-xs"
                   >
-                    <span>Read Article</span>
-                    <ArrowRight className="w-4 h-4" />
+                    <span>Read Story</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
                   </Link>
                 </div>
               </div>
@@ -181,100 +235,56 @@ export default function HomePage() {
         </section>
       )}
 
-      {/* ─── Topic Categories ───────────────────────────────── */}
-      {categories.length > 0 && (
-        <section className="space-y-6">
-          <div className="flex items-center justify-between">
-            <h2 className="text-2xl font-serif font-bold text-gray-900 dark:text-gray-100 flex items-center gap-2">
-              <Compass className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
-              Explore Topics
-            </h2>
-            <Link to="/posts" className="text-sm font-semibold text-indigo-600 dark:text-indigo-400 hover:underline">
-              View all
-            </Link>
-          </div>
-
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
-            {categories.map((cat) => (
-              <Link
-                key={cat.id || cat.slug}
-                to={`/posts?category=${cat.slug}`}
-                className="p-4 rounded-2xl bg-white dark:bg-gray-800/60 border border-gray-200/80 dark:border-gray-800 text-center hover:border-indigo-400 dark:hover:border-indigo-500 hover:shadow-md transition-all group"
-              >
-                <p className="text-sm font-semibold text-gray-900 dark:text-gray-100 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
-                  {cat.name}
-                </p>
-                <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                  {cat._count?.posts ?? 0} {cat._count?.posts === 1 ? 'post' : 'posts'}
-                </p>
-              </Link>
-            ))}
-          </div>
-        </section>
-      )}
-
-      {/* ─── Recent Articles Grid ───────────────────────────── */}
-      <section className="space-y-8">
-        <div className="flex items-center justify-between">
+      {/* ─── Latest Dispatches Grid ─────────────────────────── */}
+      <section className="space-y-6">
+        <div className="flex items-center justify-between pb-3 border-b border-[var(--line)]">
           <div>
-            <h2 className="text-2xl font-serif font-bold text-gray-900 dark:text-gray-100">Latest Dispatches</h2>
-            <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">Freshly published insights from our writers</p>
+            <p className="ink-eyebrow">RECENT STORIES</p>
+            <h2 className="text-xl sm:text-2xl font-bold text-[var(--text)]">Latest Dispatches</h2>
           </div>
           <Link
             to="/posts"
-            className="inline-flex items-center gap-1.5 text-sm font-semibold text-indigo-600 dark:text-indigo-400 hover:gap-2 transition-all"
+            className="ink-btn-pill text-xs"
           >
-            <span>Browse All</span>
-            <ArrowRight className="w-4 h-4" />
+            <span>View All</span>
+            <ArrowRight className="w-3.5 h-3.5" />
           </Link>
         </div>
 
         {loading ? (
           <div className="py-16 text-center">
             <LoadingSpinner size="lg" />
-            <p className="text-sm text-gray-500 dark:text-gray-400 mt-4">Curating fresh articles...</p>
+            <p className="text-xs text-[var(--muted)] mt-4">Loading articles...</p>
           </div>
         ) : recentPosts.length === 0 ? (
-          <div className="p-12 text-center rounded-3xl border border-dashed border-gray-200 dark:border-gray-800 bg-white/50 dark:bg-gray-800/20">
-            <BookOpen className="w-12 h-12 text-gray-300 dark:text-gray-600 mx-auto mb-3" />
-            <h3 className="text-lg font-medium text-gray-800 dark:text-gray-200">No recent articles found</h3>
-            <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">Check back soon or create your own post!</p>
+          <div className="ink-box p-12 text-center">
+            <p className="text-sm text-[var(--muted)]">No recent articles found.</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {recentPosts.map((post) => (
-              <BlogCard key={post.id} post={post} />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {recentPosts.map((post, idx) => (
+              <BlogCard key={post.id} post={post} index={idx} isHighlighted={idx === 1} />
             ))}
           </div>
         )}
       </section>
 
-      {/* ─── Community CTA Section ──────────────────────────── */}
-      <section className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-indigo-900 via-indigo-950 to-purple-950 text-white p-8 sm:p-12 shadow-2xl">
-        <div className="relative z-10 max-w-2xl space-y-4">
-          <span className="inline-block px-3 py-1 rounded-full text-xs font-semibold tracking-wider uppercase bg-white/10 text-indigo-200 border border-white/20">
-            Writer Community
-          </span>
-          <h2 className="text-3xl sm:text-4xl font-serif font-bold text-white leading-tight">
-            Ready to share your voice with the world?
-          </h2>
-          <p className="text-indigo-200 text-sm sm:text-base leading-relaxed">
-            Whether you want to document your software engineering journey, write tutorials, or share thought-provoking design essays, INKWELL gives you an elegant stage.
+      {/* ─── Author Callout Box ─────────────────────────────── */}
+      <section className="ink-card p-8 sm:p-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+        <div className="space-y-2 max-w-xl">
+          <p className="ink-eyebrow">THIRANEX INTERNSHIP TASK 4</p>
+          <h2 className="text-2xl font-bold text-[var(--text)]">Ready to share your insights?</h2>
+          <p className="text-xs sm:text-sm text-[var(--muted)] leading-relaxed">
+            Register an author account, draft technical guides, share your engineering perspectives, and join the discussion.
           </p>
-          <div className="pt-2 flex flex-wrap gap-4">
-            <Link
-              to="/register"
-              className="px-6 py-3 rounded-xl font-medium text-indigo-950 bg-white hover:bg-gray-100 transition shadow-lg"
-            >
-              Get Started for Free
-            </Link>
-            <Link
-              to="/about"
-              className="px-6 py-3 rounded-xl font-medium text-white bg-white/10 hover:bg-white/20 border border-white/20 transition"
-            >
-              Learn More
-            </Link>
-          </div>
+        </div>
+        <div className="flex flex-wrap gap-3">
+          <Link to="/register" className="ink-btn-accent text-xs">
+            Create Author Account
+          </Link>
+          <Link to="/about" className="ink-btn-pill text-xs">
+            Developer Info
+          </Link>
         </div>
       </section>
     </div>

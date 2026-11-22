@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Clock, Calendar, Tag, Share2, Bookmark, Check, User } from 'lucide-react';
+import { ArrowLeft, Clock, Calendar, Tag, Share2, Check, User } from 'lucide-react';
 import DOMPurify from 'dompurify';
 import toast from 'react-hot-toast';
 import { getPostBySlug, getPosts } from '../services/api';
@@ -62,7 +62,7 @@ export default function PostDetailPage() {
     return (
       <div className="py-24 text-center">
         <LoadingSpinner size="lg" />
-        <p className="text-sm text-gray-500 dark:text-gray-400 mt-4">Loading article...</p>
+        <p className="text-xs text-[var(--muted)] mt-4">Loading article...</p>
       </div>
     );
   }
@@ -70,16 +70,16 @@ export default function PostDetailPage() {
   if (!post) {
     return (
       <div className="py-20 text-center max-w-md mx-auto space-y-4">
-        <h2 className="text-3xl font-serif font-bold text-gray-900 dark:text-gray-100">Article Not Found</h2>
-        <p className="text-gray-600 dark:text-gray-400 text-sm">
+        <h2 className="text-2xl font-bold text-[var(--text)]">Article Not Found</h2>
+        <p className="text-[var(--muted)] text-xs">
           The article you are looking for may have been removed, unpublished, or the link might be broken.
         </p>
         <div className="pt-2">
           <Link
             to="/posts"
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-700 transition"
+            className="ink-btn-pill text-xs"
           >
-            <ArrowLeft className="w-4 h-4" />
+            <ArrowLeft className="w-3.5 h-3.5" />
             <span>Back to All Articles</span>
           </Link>
         </div>
@@ -109,75 +109,75 @@ export default function PostDetailPage() {
   });
 
   return (
-    <article className="max-w-4xl mx-auto space-y-10 pb-16">
+    <article className="max-w-4xl mx-auto space-y-8 pb-16 py-4">
       {/* ─── Back Button & Actions ──────────────────────────── */}
       <div className="flex items-center justify-between">
         <button
           onClick={() => navigate(-1)}
-          className="inline-flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100 transition"
+          className="ink-btn-pill text-xs"
         >
-          <ArrowLeft className="w-4 h-4" />
+          <ArrowLeft className="w-3.5 h-3.5" />
           <span>Back</span>
         </button>
 
         <button
           onClick={handleShare}
-          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/80 transition shadow-sm"
+          className="ink-btn-pill text-xs"
           title="Share article"
         >
-          {copied ? <Check className="w-3.5 h-3.5 text-green-500" /> : <Share2 className="w-3.5 h-3.5" />}
+          {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Share2 className="w-3.5 h-3.5 text-primary-400" />}
           <span>{copied ? 'Copied' : 'Share'}</span>
         </button>
       </div>
 
       {/* ─── Article Header ─────────────────────────────────── */}
-      <header className="space-y-6 text-center max-w-3xl mx-auto">
+      <header className="space-y-4 text-center max-w-3xl mx-auto">
         {post.category && (
           <Link
             to={`/posts?category=${post.category.slug}`}
-            className="inline-block px-3.5 py-1 rounded-full text-xs font-semibold tracking-wider uppercase text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200/60 dark:border-indigo-800/60"
+            className="ink-tag text-xs text-primary-400 font-semibold"
           >
             {post.category.name}
           </Link>
         )}
 
-        <h1 className="text-3xl sm:text-4xl md:text-5xl font-serif font-bold text-gray-950 dark:text-gray-50 leading-tight">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[var(--text)] tracking-tight leading-tight">
           {post.title}
         </h1>
 
         {post.excerpt && (
-          <p className="text-lg sm:text-xl text-gray-600 dark:text-gray-300 leading-relaxed font-sans">
+          <p className="text-sm sm:text-base text-[var(--muted)] leading-relaxed">
             {post.excerpt}
           </p>
         )}
 
         {/* Author & Meta Row */}
-        <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 pt-4 text-xs sm:text-sm text-gray-500 dark:text-gray-400 border-t border-b border-gray-100 dark:border-gray-800/80 py-4">
+        <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 pt-3 text-xs text-[var(--muted)] border-t border-b border-[var(--line)] py-3">
           <Link
             to={`/profile/${post.author?.id || post.authorId}`}
-            className="flex items-center gap-2.5 hover:text-indigo-600 dark:hover:text-indigo-400 transition"
+            className="flex items-center gap-2 hover:text-primary-400 transition"
           >
             {post.author?.avatarUrl ? (
               <img
                 src={post.author.avatarUrl}
                 alt={post.author.name}
-                className="w-9 h-9 rounded-full object-cover ring-2 ring-indigo-500/20"
+                className="w-7 h-7 rounded-full object-cover border border-[var(--line)]"
               />
             ) : (
-              <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-600 text-white flex items-center justify-center font-semibold text-xs shadow-sm">
+              <div className="w-7 h-7 rounded-full bg-[var(--surface)] border border-[var(--line)] text-primary-400 flex items-center justify-center font-bold text-xs">
                 {post.author?.name ? post.author.name[0].toUpperCase() : 'A'}
               </div>
             )}
-            <span className="font-semibold text-gray-900 dark:text-gray-100">{post.author?.name || 'Author'}</span>
+            <span className="font-semibold text-[var(--text)]">{post.author?.name || 'Author'}</span>
           </Link>
 
           <span className="flex items-center gap-1.5">
-            <Calendar className="w-4 h-4 text-gray-400" />
+            <Calendar className="w-3.5 h-3.5 text-primary-400" />
             <span>{publishedDate}</span>
           </span>
 
           <span className="flex items-center gap-1.5">
-            <Clock className="w-4 h-4 text-gray-400" />
+            <Clock className="w-3.5 h-3.5 text-primary-400" />
             <span>{readingTime} min read</span>
           </span>
         </div>
@@ -185,7 +185,7 @@ export default function PostDetailPage() {
 
       {/* ─── Cover Image ────────────────────────────────────── */}
       {post.coverImage && (
-        <div className="rounded-3xl overflow-hidden shadow-xl max-h-[500px] w-full bg-gray-100 dark:bg-gray-900 border border-gray-200/60 dark:border-gray-800">
+        <div className="rounded-[10px] overflow-hidden max-h-[480px] w-full bg-[var(--surface)] border border-[var(--line)]">
           <img
             src={post.coverImage}
             alt={post.title}
@@ -195,17 +195,17 @@ export default function PostDetailPage() {
       )}
 
       {/* ─── Article Body ───────────────────────────────────── */}
-      <div className="max-w-3xl mx-auto">
+      <div className="max-w-3xl mx-auto space-y-8">
         <div
-          className="prose-content text-gray-800 dark:text-gray-200 text-base sm:text-lg leading-relaxed font-sans space-y-5"
+          className="prose-content"
           dangerouslySetInnerHTML={{ __html: sanitizedContent }}
         />
 
         {/* Tags */}
         {post.tags && post.tags.length > 0 && (
-          <div className="mt-10 pt-6 border-t border-gray-100 dark:border-gray-800 flex flex-wrap items-center gap-2">
-            <span className="text-xs font-semibold text-gray-400 uppercase tracking-wider flex items-center gap-1 mr-1">
-              <Tag className="w-3.5 h-3.5" />
+          <div className="pt-6 border-t border-[var(--line)] flex flex-wrap items-center gap-2">
+            <span className="text-xs font-semibold text-[var(--muted)] uppercase tracking-wider flex items-center gap-1 mr-1">
+              <Tag className="w-3.5 h-3.5 text-primary-400" />
               Tags:
             </span>
             {post.tags.map((t) => {
@@ -213,7 +213,7 @@ export default function PostDetailPage() {
               return (
                 <span
                   key={tagObj.id || tagObj.slug}
-                  className="px-3 py-1 rounded-lg text-xs font-medium bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300"
+                  className="ink-tag text-xs"
                 >
                   #{tagObj.name}
                 </span>
@@ -224,22 +224,20 @@ export default function PostDetailPage() {
 
         {/* Author Bio Box */}
         {post.author && (
-          <div className="mt-12 p-6 rounded-3xl bg-indigo-50/50 dark:bg-gray-800/50 border border-indigo-100 dark:border-gray-700/60 flex items-start gap-4">
-            <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-indigo-500 to-purple-600 text-white flex-shrink-0 flex items-center justify-center font-bold text-xl shadow-md">
+          <div className="ink-card p-6 flex items-start gap-4">
+            <div className="w-12 h-12 rounded-[8px] bg-[var(--surface)] border border-[var(--line)] text-primary-400 flex-shrink-0 flex items-center justify-center font-bold text-lg">
               {post.author.name ? post.author.name[0].toUpperCase() : 'A'}
             </div>
-            <div className="space-y-1.5">
-              <div className="flex items-center gap-2">
-                <h4 className="font-serif font-bold text-gray-900 dark:text-gray-100 text-base">
-                  Written by {post.author.name}
-                </h4>
-              </div>
-              <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
-                {post.author.bio || 'Contributing writer at INKWELL. Passionate about software architecture, clean code, and engineering storytelling.'}
+            <div className="space-y-1 flex-1">
+              <h4 className="font-bold text-[var(--text)] text-sm">
+                Written by {post.author.name}
+              </h4>
+              <p className="text-xs text-[var(--muted)] leading-relaxed">
+                {post.author.bio || 'Contributing author at INKWELL. Passionate about software architecture, clean code, and engineering storytelling.'}
               </p>
               <Link
                 to={`/profile/${post.author.id}`}
-                className="inline-block text-xs font-semibold text-indigo-600 dark:text-indigo-400 hover:underline pt-1"
+                className="inline-block text-xs font-semibold text-primary-400 hover:underline pt-1"
               >
                 View full profile & articles →
               </Link>
@@ -253,13 +251,15 @@ export default function PostDetailPage() {
 
       {/* ─── Related Articles ───────────────────────────────── */}
       {relatedPosts.length > 0 && (
-        <section className="pt-16 border-t border-gray-200 dark:border-gray-800 space-y-6">
-          <h3 className="text-2xl font-serif font-bold text-gray-900 dark:text-gray-100">
-            More Stories You Might Like
-          </h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {relatedPosts.map((rPost) => (
-              <BlogCard key={rPost.id} post={rPost} />
+        <section className="pt-12 border-t border-[var(--line)] space-y-6">
+          <div className="flex items-center justify-between">
+            <h3 className="text-xl font-bold text-[var(--text)]">
+              More Stories You Might Like
+            </h3>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+            {relatedPosts.map((rPost, idx) => (
+              <BlogCard key={rPost.id} post={rPost} index={idx} />
             ))}
           </div>
         </section>

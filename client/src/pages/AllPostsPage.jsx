@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Search, Filter, BookOpen, X, Sparkles } from 'lucide-react';
+import { Search, BookOpen, X } from 'lucide-react';
 import { getPosts, getCategories } from '../services/api';
 import BlogCard from '../components/blog/BlogCard';
 import Pagination from '../components/ui/Pagination';
@@ -100,47 +100,48 @@ export default function AllPostsPage() {
   const hasActiveFilters = Boolean(activeCategory || searchQuery);
 
   return (
-    <div className="space-y-10">
+    <div className="space-y-8 py-4">
       {/* ─── Header ─────────────────────────────────────────── */}
-      <div className="text-center max-w-2xl mx-auto space-y-4 pt-4">
-        <h1 className="text-4xl sm:text-5xl font-serif font-bold text-gray-900 dark:text-gray-100">
-          The Reading Room
+      <div className="text-center max-w-2xl mx-auto space-y-3 pt-4">
+        <p className="ink-eyebrow">READING ROOM</p>
+        <h1 className="text-3xl sm:text-4xl font-bold text-[var(--text)] tracking-tight">
+          All Published Dispatches
         </h1>
-        <p className="text-base sm:text-lg text-gray-600 dark:text-gray-400">
-          Explore articles on programming, design, software engineering, and creative thinking.
+        <p className="text-xs sm:text-sm text-[var(--muted)] leading-relaxed">
+          Explore articles on programming, software engineering, architecture, and developer productivity.
         </p>
       </div>
 
       {/* ─── Search & Category Filters ──────────────────────── */}
-      <div className="space-y-6">
+      <div className="space-y-4 max-w-3xl mx-auto">
         {/* Search Bar */}
-        <form onSubmit={handleSearchSubmit} className="max-w-2xl mx-auto">
+        <form onSubmit={handleSearchSubmit}>
           <div className="relative flex items-center">
-            <Search className="absolute left-4 w-5 h-5 text-gray-400 dark:text-gray-500" />
+            <Search className="absolute left-4 w-4 h-4 text-[var(--muted)]" />
             <input
               type="text"
               value={searchInput}
               onChange={(e) => setSearchInput(e.target.value)}
               placeholder="Search articles by title, topic, or keyword..."
-              className="w-full pl-12 pr-28 py-3.5 rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700/80 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 shadow-sm"
+              className="w-full pl-11 pr-24 py-3 rounded-[10px] bg-[var(--card)] border border-[var(--line)] text-[var(--text)] placeholder-[var(--muted)] text-xs sm:text-sm focus:outline-none focus:border-[var(--accent)] transition-all"
             />
             <button
               type="submit"
-              className="absolute right-2 px-4 py-2 rounded-xl text-xs font-semibold text-white bg-indigo-600 hover:bg-indigo-700 transition shadow-sm"
+              className="absolute right-2 px-3.5 py-1.5 rounded-[6px] text-xs font-semibold ink-btn-accent"
             >
               Search
             </button>
           </div>
         </form>
 
-        {/* Category Pills */}
+        {/* Category Pills (matching the tags in the picture) ─── */}
         <div className="flex flex-wrap items-center justify-center gap-2">
           <button
             onClick={() => handleCategorySelect('')}
-            className={`px-4 py-2 rounded-xl text-xs font-medium transition ${
+            className={`ink-tag text-xs px-3 py-1.5 transition-all ${
               !activeCategory
-                ? 'bg-indigo-600 text-white shadow-sm'
-                : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700 hover:border-gray-300'
+                ? 'border-[var(--accent)] text-primary-400 font-semibold'
+                : 'text-[var(--muted)] hover:border-[var(--accent)] hover:text-[var(--text)]'
             }`}
           >
             All Topics
@@ -151,10 +152,10 @@ export default function AllPostsPage() {
               <button
                 key={cat.id || cat.slug}
                 onClick={() => handleCategorySelect(cat.slug)}
-                className={`px-4 py-2 rounded-xl text-xs font-medium transition ${
+                className={`ink-tag text-xs px-3 py-1.5 transition-all ${
                   isSelected
-                    ? 'bg-indigo-600 text-white shadow-sm'
-                    : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700 hover:border-gray-300'
+                    ? 'border-[var(--accent)] text-primary-400 font-semibold'
+                    : 'text-[var(--muted)] hover:border-[var(--accent)] hover:text-[var(--text)]'
                 }`}
               >
                 {cat.name}
@@ -165,17 +166,17 @@ export default function AllPostsPage() {
           {hasActiveFilters && (
             <button
               onClick={clearFilters}
-              className="inline-flex items-center gap-1 px-3 py-2 rounded-xl text-xs font-medium text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-950/40 hover:bg-red-100 transition"
+              className="ink-tag text-xs px-2.5 py-1.5 text-red-400 border-red-500/30 hover:bg-red-500/10 transition-colors"
             >
               <X className="w-3.5 h-3.5" />
-              Reset filters
+              Reset
             </button>
           )}
         </div>
       </div>
 
       {/* ─── Search Summary ─────────────────────────────────── */}
-      <div className="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400 border-b border-gray-100 dark:border-gray-800 pb-3">
+      <div className="flex items-center justify-between text-xs text-[var(--muted)] border-b border-[var(--line)] pb-3">
         <span>
           Showing {posts.length} of {totalPosts} articles
           {activeCategory && ` in "${categories.find((c) => c.slug === activeCategory)?.name || activeCategory}"`}
@@ -192,26 +193,26 @@ export default function AllPostsPage() {
       {loading ? (
         <div className="py-20 text-center">
           <LoadingSpinner size="lg" />
-          <p className="text-sm text-gray-500 dark:text-gray-400 mt-4">Loading articles...</p>
+          <p className="text-xs text-[var(--muted)] mt-4">Loading articles...</p>
         </div>
       ) : posts.length === 0 ? (
-        <div className="py-16 text-center rounded-3xl border border-dashed border-gray-200 dark:border-gray-800 bg-white/50 dark:bg-gray-800/20 max-w-md mx-auto p-8">
-          <BookOpen className="w-12 h-12 text-gray-300 dark:text-gray-600 mx-auto mb-3" />
-          <h3 className="text-lg font-serif font-bold text-gray-800 dark:text-gray-200">No articles found</h3>
-          <p className="text-sm text-gray-500 dark:text-gray-400 mt-1 mb-6">
+        <div className="ink-card py-16 text-center max-w-md mx-auto p-8 space-y-3">
+          <BookOpen className="w-10 h-10 text-[var(--muted)] mx-auto opacity-40" />
+          <h3 className="text-base font-bold text-[var(--text)]">No articles found</h3>
+          <p className="text-xs text-[var(--muted)] max-w-xs mx-auto">
             We couldn't find any stories matching your current filter criteria.
           </p>
           <button
             onClick={clearFilters}
-            className="px-5 py-2.5 rounded-xl text-xs font-semibold text-white bg-indigo-600 hover:bg-indigo-700 transition shadow-sm"
+            className="ink-btn-pill text-xs mt-2"
           >
             Clear all filters
           </button>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {posts.map((post) => (
-            <BlogCard key={post.id} post={post} />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          {posts.map((post, idx) => (
+            <BlogCard key={post.id} post={post} index={idx} />
           ))}
         </div>
       )}

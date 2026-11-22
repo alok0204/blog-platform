@@ -7,8 +7,6 @@ import {
   MessageSquare,
   Trash2,
   ExternalLink,
-  CheckCircle,
-  AlertTriangle,
   Globe,
   Lock,
   RefreshCw,
@@ -70,24 +68,24 @@ export default function AdminDashboardPage() {
     return (
       <div className="py-24 text-center">
         <LoadingSpinner size="lg" />
-        <p className="text-sm text-gray-500 dark:text-gray-400 mt-4">Loading Admin Studio...</p>
+        <p className="text-xs text-[var(--muted)] mt-4">Loading Admin Studio...</p>
       </div>
     );
   }
 
   return (
-    <div className="space-y-8 pb-16">
-      {/* ─── Admin Banner ───────────────────────────────────── */}
-      <div className="p-6 rounded-3xl bg-gradient-to-r from-purple-900/90 via-indigo-900/90 to-indigo-950 text-white shadow-xl flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div className="space-y-1">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-white/20 text-purple-200">
+    <div className="space-y-8 pb-16 py-4">
+      {/* ─── Admin Banner (Sleek Box Shape) ─────────────────── */}
+      <div className="ink-card p-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div className="space-y-1.5">
+          <div className="inline-flex items-center gap-1.5 ink-tag text-primary-400 font-semibold uppercase tracking-wider text-[11px]">
             <Shield className="w-3.5 h-3.5" />
             <span>Administrator Control Center</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-serif font-bold text-white">
+          <h1 className="text-2xl sm:text-3xl font-bold text-[var(--text)] tracking-tight">
             Platform Moderation & Statistics
           </h1>
-          <p className="text-xs text-purple-200">
+          <p className="text-xs text-[var(--muted)]">
             Monitor real database records, moderate user discussions, and manage platform health.
           </p>
         </div>
@@ -95,88 +93,89 @@ export default function AdminDashboardPage() {
         <button
           onClick={fetchAdminData}
           disabled={loading}
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold bg-white/10 hover:bg-white/20 border border-white/20 transition self-start sm:self-auto"
+          className="ink-btn-pill text-xs self-start sm:self-auto"
         >
           <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
           <span>Refresh Data</span>
         </button>
       </div>
 
-      {/* ─── Metric Cards ───────────────────────────────────── */}
+      {/* ─── Metric Cards (Exact match to picture box shapes) ─ */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-        <div className="p-5 rounded-3xl bg-white dark:bg-gray-800/80 border border-gray-200/80 dark:border-gray-700/80 shadow-sm space-y-1">
-          <div className="flex items-center justify-between text-indigo-600 dark:text-indigo-400">
+        <div className="ink-card p-5 space-y-2">
+          <div className="flex items-center justify-between text-primary-400">
             <Users className="w-5 h-5" />
-            <span className="text-[10px] uppercase font-bold text-gray-400">Database</span>
+            <span className="ink-tag text-[10px]">DATABASE</span>
           </div>
-          <p className="text-2xl sm:text-3xl font-serif font-bold text-gray-900 dark:text-gray-100">
+          <p className="text-2xl sm:text-3xl font-bold text-[var(--text)]">
             {stats?.totalUsers ?? 0}
           </p>
-          <p className="text-xs text-gray-500 dark:text-gray-400 font-medium">Registered Users</p>
+          <p className="text-xs text-[var(--muted)] font-medium">Registered Users</p>
         </div>
 
-        <div className="p-5 rounded-3xl bg-white dark:bg-gray-800/80 border border-gray-200/80 dark:border-gray-700/80 shadow-sm space-y-1">
-          <div className="flex items-center justify-between text-green-600 dark:text-green-400">
+        <div className="ink-card p-5 space-y-2">
+          <div className="flex items-center justify-between text-emerald-400">
             <Globe className="w-5 h-5" />
-            <span className="text-[10px] uppercase font-bold text-green-500">Live</span>
+            <span className="ink-tag text-[10px] text-emerald-400">LIVE</span>
           </div>
-          <p className="text-2xl sm:text-3xl font-serif font-bold text-gray-900 dark:text-gray-100">
+          <p className="text-2xl sm:text-3xl font-bold text-[var(--text)]">
             {stats?.totalPublished ?? stats?.publishedPosts ?? 0}
           </p>
-          <p className="text-xs text-gray-500 dark:text-gray-400 font-medium">Published Posts</p>
+          <p className="text-xs text-[var(--muted)] font-medium">Published Posts</p>
         </div>
 
-        <div className="p-5 rounded-3xl bg-white dark:bg-gray-800/80 border border-gray-200/80 dark:border-gray-700/80 shadow-sm space-y-1">
-          <div className="flex items-center justify-between text-amber-500">
+        <div className="ink-card p-5 space-y-2">
+          <div className="flex items-center justify-between text-amber-400">
             <Lock className="w-5 h-5" />
-            <span className="text-[10px] uppercase font-bold text-amber-500">Drafts</span>
+            <span className="ink-tag text-[10px] text-amber-400">DRAFTS</span>
           </div>
-          <p className="text-2xl sm:text-3xl font-serif font-bold text-gray-900 dark:text-gray-100">
+          <p className="text-2xl sm:text-3xl font-bold text-[var(--text)]">
             {stats?.totalDrafts ?? stats?.draftPosts ?? 0}
           </p>
-          <p className="text-xs text-gray-500 dark:text-gray-400 font-medium">Pending Drafts</p>
+          <p className="text-xs text-[var(--muted)] font-medium">Pending Drafts</p>
         </div>
 
-        <div className="p-5 rounded-3xl bg-white dark:bg-gray-800/80 border border-gray-200/80 dark:border-gray-700/80 shadow-sm space-y-1">
-          <div className="flex items-center justify-between text-purple-600 dark:text-purple-400">
+        {/* Highlighted active card with accent violet glow */}
+        <div className="ink-card-active p-5 space-y-2">
+          <div className="flex items-center justify-between text-primary-400">
             <MessageSquare className="w-5 h-5" />
-            <span className="text-[10px] uppercase font-bold text-purple-500">Engagement</span>
+            <span className="ink-tag text-[10px] text-primary-400 font-semibold">ENGAGEMENT</span>
           </div>
-          <p className="text-2xl sm:text-3xl font-serif font-bold text-gray-900 dark:text-gray-100">
+          <p className="text-2xl sm:text-3xl font-bold text-[var(--text)]">
             {stats?.totalComments ?? 0}
           </p>
-          <p className="text-xs text-gray-500 dark:text-gray-400 font-medium">Total Comments</p>
+          <p className="text-xs text-[var(--muted)] font-medium">Total Comments</p>
         </div>
       </div>
 
       {/* ─── Tabs ───────────────────────────────────────────── */}
-      <div className="flex items-center gap-2 border-b border-gray-200 dark:border-gray-800 pb-2">
+      <div className="flex items-center gap-6 border-b border-[var(--line)]">
         <button
           onClick={() => setActiveTab('overview')}
-          className={`px-4 py-2 rounded-xl text-xs font-semibold transition ${
+          className={`py-3 text-sm font-medium transition-colors relative ${
             activeTab === 'overview'
-              ? 'bg-indigo-600 text-white shadow-sm'
-              : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
+              ? 'text-[var(--text)] font-semibold after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[2px] after:bg-[var(--accent)]'
+              : 'text-[var(--muted)] hover:text-[var(--text)]'
           }`}
         >
           Recent Activity
         </button>
         <button
           onClick={() => setActiveTab('posts')}
-          className={`px-4 py-2 rounded-xl text-xs font-semibold transition ${
+          className={`py-3 text-sm font-medium transition-colors relative ${
             activeTab === 'posts'
-              ? 'bg-indigo-600 text-white shadow-sm'
-              : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
+              ? 'text-[var(--text)] font-semibold after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[2px] after:bg-[var(--accent)]'
+              : 'text-[var(--muted)] hover:text-[var(--text)]'
           }`}
         >
           All Posts ({posts.length})
         </button>
         <button
           onClick={() => setActiveTab('comments')}
-          className={`px-4 py-2 rounded-xl text-xs font-semibold transition ${
+          className={`py-3 text-sm font-medium transition-colors relative ${
             activeTab === 'comments'
-              ? 'bg-indigo-600 text-white shadow-sm'
-              : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
+              ? 'text-[var(--text)] font-semibold after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[2px] after:bg-[var(--accent)]'
+              : 'text-[var(--muted)] hover:text-[var(--text)]'
           }`}
         >
           Comment Moderation ({comments.length})
@@ -187,28 +186,28 @@ export default function AdminDashboardPage() {
       {activeTab === 'overview' && (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Recent Posts */}
-          <div className="p-6 rounded-3xl bg-white dark:bg-gray-800/80 border border-gray-200/80 dark:border-gray-700/80 shadow-sm space-y-4">
-            <h3 className="font-serif font-bold text-lg text-gray-900 dark:text-gray-100 flex items-center gap-2">
-              <FileText className="w-5 h-5 text-indigo-600" />
-              Latest Stories Created
+          <div className="ink-card p-6 space-y-4">
+            <h3 className="font-bold text-base text-[var(--text)] flex items-center gap-2">
+              <FileText className="w-4 h-4 text-primary-400" />
+              <span>Latest Stories Created</span>
             </h3>
-            <div className="divide-y divide-gray-100 dark:divide-gray-800">
+            <div className="divide-y divide-[var(--line)]">
               {posts.slice(0, 5).map((p) => (
-                <div key={p.id} className="py-3 flex items-center justify-between text-sm">
-                  <div className="max-w-xs">
+                <div key={p.id} className="py-3 flex items-center justify-between text-xs">
+                  <div className="max-w-xs space-y-0.5">
                     <Link
                       to={`/posts/${p.slug}`}
-                      className="font-medium text-gray-900 dark:text-gray-100 hover:text-indigo-600 dark:hover:text-indigo-400 line-clamp-1"
+                      className="font-medium text-[var(--text)] hover:text-primary-400 line-clamp-1"
                     >
                       {p.title}
                     </Link>
-                    <span className="text-xs text-gray-400">By {p.author?.name || 'Author'}</span>
+                    <span className="text-[11px] text-[var(--muted)]">By {p.author?.name || 'Author'}</span>
                   </div>
                   <span
-                    className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded ${
+                    className={`ink-tag text-[10px] font-semibold uppercase ${
                       p.status === 'PUBLISHED'
-                        ? 'bg-green-100 text-green-700 dark:bg-green-950/60 dark:text-green-300'
-                        : 'bg-amber-100 text-amber-700 dark:bg-amber-950/60 dark:text-amber-300'
+                        ? 'text-emerald-400'
+                        : 'text-amber-400'
                     }`}
                   >
                     {p.status}
@@ -219,27 +218,27 @@ export default function AdminDashboardPage() {
           </div>
 
           {/* Recent Comments */}
-          <div className="p-6 rounded-3xl bg-white dark:bg-gray-800/80 border border-gray-200/80 dark:border-gray-700/80 shadow-sm space-y-4">
-            <h3 className="font-serif font-bold text-lg text-gray-900 dark:text-gray-100 flex items-center gap-2">
-              <MessageSquare className="w-5 h-5 text-purple-600" />
-              Recent Reader Comments
+          <div className="ink-card p-6 space-y-4">
+            <h3 className="font-bold text-base text-[var(--text)] flex items-center gap-2">
+              <MessageSquare className="w-4 h-4 text-primary-400" />
+              <span>Recent Reader Comments</span>
             </h3>
-            <div className="divide-y divide-gray-100 dark:divide-gray-800">
+            <div className="divide-y divide-[var(--line)]">
               {comments.slice(0, 5).map((c) => (
                 <div key={c.id} className="py-3 space-y-1">
-                  <div className="flex items-center justify-between text-xs text-gray-400">
-                    <span className="font-medium text-gray-700 dark:text-gray-300">
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="font-medium text-[var(--text)]">
                       {c.author?.name || 'Reader'}
                     </span>
                     <button
                       onClick={() => handleDeleteComment(c.id)}
-                      className="text-red-500 hover:text-red-700 transition"
+                      className="text-red-400 hover:text-red-300 transition text-xs"
                       title="Moderate / Delete"
                     >
                       Delete
                     </button>
                   </div>
-                  <p className="text-xs text-gray-600 dark:text-gray-300 line-clamp-2 italic">
+                  <p className="text-xs text-[var(--muted)] line-clamp-2 italic">
                     "{c.content}"
                   </p>
                 </div>
@@ -251,52 +250,52 @@ export default function AdminDashboardPage() {
 
       {/* ─── Tab Content: Posts List ────────────────────────── */}
       {activeTab === 'posts' && (
-        <div className="overflow-hidden rounded-3xl bg-white dark:bg-gray-800/80 border border-gray-200/80 dark:border-gray-700/80 shadow-sm">
+        <div className="ink-card overflow-hidden">
           <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse text-sm">
+            <table className="w-full text-left border-collapse text-xs">
               <thead>
-                <tr className="border-b border-gray-100 dark:border-gray-700 text-[11px] uppercase tracking-wider text-gray-400 bg-gray-50/50 dark:bg-gray-900/40">
-                  <th className="py-3 px-6 font-semibold">Title</th>
+                <tr className="border-b border-[var(--line)] text-[11px] uppercase tracking-wider text-[var(--muted)] bg-[var(--surface)]">
+                  <th className="py-3 px-5 font-semibold">Title</th>
                   <th className="py-3 px-4 font-semibold">Author</th>
                   <th className="py-3 px-4 font-semibold">Status</th>
                   <th className="py-3 px-4 font-semibold">Comments</th>
-                  <th className="py-3 px-6 font-semibold text-right">View</th>
+                  <th className="py-3 px-5 font-semibold text-right">View</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-100 dark:divide-gray-800">
+              <tbody className="divide-y divide-[var(--line)]">
                 {posts.map((p) => (
-                  <tr key={p.id} className="hover:bg-gray-50/50 dark:hover:bg-gray-700/30">
-                    <td className="py-3.5 px-6 font-medium text-gray-900 dark:text-gray-100 max-w-sm">
+                  <tr key={p.id} className="hover:bg-[var(--surface)]/50 transition-colors">
+                    <td className="py-3.5 px-5 font-medium text-[var(--text)] max-w-sm">
                       <Link
                         to={`/posts/${p.slug}`}
-                        className="hover:text-indigo-600 dark:hover:text-indigo-400 line-clamp-1"
+                        className="hover:text-primary-400 line-clamp-1"
                       >
                         {p.title}
                       </Link>
                     </td>
-                    <td className="py-3.5 px-4 text-xs text-gray-600 dark:text-gray-300">
+                    <td className="py-3.5 px-4 text-[var(--muted)]">
                       {p.author?.name || 'Author'}
                     </td>
                     <td className="py-3.5 px-4">
                       <span
-                        className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded ${
+                        className={`ink-tag text-[10px] font-semibold uppercase ${
                           p.status === 'PUBLISHED'
-                            ? 'bg-green-100 text-green-700 dark:bg-green-950/60 dark:text-green-300'
-                            : 'bg-amber-100 text-amber-700 dark:bg-amber-950/60 dark:text-amber-300'
+                            ? 'text-emerald-400'
+                            : 'text-amber-400'
                         }`}
                       >
                         {p.status}
                       </span>
                     </td>
-                    <td className="py-3.5 px-4 text-xs text-gray-500">
+                    <td className="py-3.5 px-4 text-[var(--muted)]">
                       {p._count?.comments ?? 0}
                     </td>
-                    <td className="py-3.5 px-6 text-right">
+                    <td className="py-3.5 px-5 text-right">
                       <Link
                         to={`/posts/${p.slug}`}
-                        className="p-1.5 rounded-lg text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 inline-block"
+                        className="p-1.5 rounded text-[var(--muted)] hover:text-primary-400 inline-block"
                       >
-                        <ExternalLink className="w-4 h-4" />
+                        <ExternalLink className="w-3.5 h-3.5" />
                       </Link>
                     </td>
                   </tr>
@@ -310,33 +309,33 @@ export default function AdminDashboardPage() {
       {/* ─── Tab Content: Comment Moderation ─────────────────── */}
       {activeTab === 'comments' && (
         <div className="space-y-4">
-          <div className="flex items-center justify-between text-xs text-gray-500">
+          <div className="flex items-center justify-between text-xs text-[var(--muted)]">
             <span>Moderate and remove any inappropriate or spam comments across all articles.</span>
           </div>
 
           <div className="space-y-3">
             {comments.length === 0 ? (
-              <div className="p-12 text-center rounded-3xl border border-dashed border-gray-200 dark:border-gray-800">
-                <MessageSquare className="w-8 h-8 text-gray-300 dark:text-gray-600 mx-auto mb-2" />
-                <p className="text-sm text-gray-500">No comments to display.</p>
+              <div className="ink-card p-12 text-center">
+                <MessageSquare className="w-8 h-8 text-[var(--muted)] mx-auto mb-2 opacity-50" />
+                <p className="text-xs text-[var(--muted)]">No comments to display.</p>
               </div>
             ) : (
               comments.map((comment) => (
                 <div
                   key={comment.id}
-                  className="p-5 rounded-2xl bg-white dark:bg-gray-800/80 border border-gray-200/80 dark:border-gray-700/80 shadow-sm flex items-start justify-between gap-4"
+                  className="ink-card p-4 flex items-start justify-between gap-4"
                 >
                   <div className="space-y-1.5 flex-1">
                     <div className="flex items-center gap-2 text-xs">
-                      <span className="font-semibold text-gray-900 dark:text-gray-100">
+                      <span className="font-semibold text-[var(--text)]">
                         {comment.author?.name || 'Reader'}
                       </span>
-                      <span className="text-gray-400">•</span>
-                      <span className="text-gray-400">
-                        On story: <span className="text-indigo-600 dark:text-indigo-400 font-medium">{comment.post?.title || 'Story'}</span>
+                      <span className="text-[var(--muted)]">•</span>
+                      <span className="text-[var(--muted)]">
+                        On story: <span className="text-primary-400 font-medium">{comment.post?.title || 'Story'}</span>
                       </span>
                     </div>
-                    <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
+                    <p className="text-xs text-[var(--text)] leading-relaxed">
                       {comment.content}
                     </p>
                   </div>
@@ -344,10 +343,10 @@ export default function AdminDashboardPage() {
                   <button
                     onClick={() => handleDeleteComment(comment.id)}
                     disabled={actionLoading}
-                    className="p-2 text-red-500 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-950/40 rounded-xl transition flex-shrink-0"
+                    className="p-2 text-red-400 hover:text-red-300 hover:bg-[var(--surface)] rounded-[6px] border border-[var(--line)] transition flex-shrink-0"
                     title="Remove comment"
                   >
-                    <Trash2 className="w-4 h-4" />
+                    <Trash2 className="w-3.5 h-3.5" />
                   </button>
                 </div>
               ))
